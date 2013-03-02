@@ -118,10 +118,20 @@
       link = Link(arguments[0], arguments[1]);
     }
 
-    this._links[link.rel] = link;
+    this._links[link.rel] = linkGroupPlus(this._links[link.rel], link);
 
     return this;
   };
+
+  function linkGroupPlus(group, newLink) {
+    if (!group) {
+      return newLink;
+    }
+    if (Array.isArray(group)) {
+      return a.concat(newlink);
+    }
+    return [ group, newLink ];
+  }
 
   /**
    * Add an embedded resource

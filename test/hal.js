@@ -1,4 +1,5 @@
 var expect = require('chai').expect;
+var _ = require('lodash');
 
 var hal = require('..');
 
@@ -57,6 +58,16 @@ describe('HAL', function () {
       expect(res.link.bind(res, 'edit', '/edit')).to.not.throw(Error);
       expect(res._links).to.have.property('edit');
       expect(res._links.edit.href).to.equal('/edit');
+    });
+    it('should add two links with same rel', function () {
+      var res = new hal.Resource({});
+      res.link('admin', '/user/john');
+      res.link('admin', '/user/jane');
+
+      expect(res._links).to.have.property('admin');
+      expect(res._links.admin).to.be.an('Array');
+      expect(_.pluck(res._links.admin, 'href')).to.deep.equal(['/user/john', '/user/jane']);
+      expect(_.pluck(res._links.admin, 'rel')).to.deep.equal(['admin', 'admin']);
     });
     it('should embed resource', function () {
       var res = new hal.Resource({}, 'href');
