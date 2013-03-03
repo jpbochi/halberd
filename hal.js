@@ -161,6 +161,16 @@
     return [ group, newLink ];
   }
 
+  Resource.prototype.links = function () {
+    var links = [];
+    var _links = this._links;
+
+    Object.keys(_links).forEach(function (rel) {
+      links = links.concat(_links[rel]);
+    });
+    return links;
+  };
+
   /**
    * Add an embedded resource
    * @param String rel → the relation identifier (should be plural)

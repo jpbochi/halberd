@@ -4,7 +4,6 @@ var _ = require('lodash');
 var hal = require('..');
 
 describe('HAL', function () {
-
   it('should expose Resource and Link classes', function () {
     expect(hal.Resource).to.be.a('function');
     expect(hal.Link).to.be.a('function');
@@ -167,6 +166,26 @@ describe('HAL', function () {
         expect(parsed._links.mom.constructor).to.eql(hal.Link);
         expect(parsed._links.brother).to.be.an('Array');
         expect(_.pluck(parsed._links.brother, 'constructor')).to.deep.equal([hal.Link, hal.Link, hal.Link]);
+      });
+    });
+
+    describe('links()', function () {
+      it ('return an array with all links', function () {
+        var resource = hal.Resource({
+          _links: {
+            self: { href: '/me' },
+            pop: { href: '/pop' },
+            sister: [
+              { href: '/one' },
+              { href: '/two' }
+            ]
+          }
+        });
+
+        var links = resource.links();
+        expect(links).to.be.an('Array');
+        expect(_.pluck(links, 'rel')).to.deep.equal(['self', 'pop', 'sister', 'sister']);
+        expect(_.pluck(links, 'href')).to.deep.equal(['/me', '/pop', '/one', '/two']);
       });
     });
   });
