@@ -64,6 +64,23 @@
     }).bind(this), {});
   };
 
+  function parseLinks(links) {
+    var parsed = {};
+
+    for (var rel in links) {
+      if (links.hasOwnProperty(rel)) {
+        if (Array.isArray(links[rel])) {
+          parsed[rel] = links[rel].map(function (link) {
+            return new Link(rel, link);
+          });
+        } else {
+          parsed[rel] = new Link(rel, links[rel]);
+        }
+      }
+    }
+    return parsed;
+  }
+
   /**
    * A hypertext resource
    * @param Object object → the base properties
@@ -91,7 +108,11 @@
     // **CAN** (but should not) overwrite them
     for (var property in object) {
       if (object.hasOwnProperty(property)) {
-        this[property] = object[property];
+        if (property === '_links') {
+          this._links = parseLinks(object[property]);
+        } else {
+          this[property] = object[property];
+        }
       }
     }
 

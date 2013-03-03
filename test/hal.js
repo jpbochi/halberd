@@ -140,7 +140,27 @@ describe('HAL', function () {
         expect(resource.toXML()).to.equal(xml);
       });
 
-    })
-  });
+    });
 
+    describe('parsing from json', function () {
+      it('parses _links as hal.Links', function () {
+        var parsed = hal.Resource({
+          _links: {
+            self: { href: '/j1', rel: 'self' },
+            mom: { href: '/m', rel: 'mom' },
+            brother: [
+              { href: '/j0', rel: 'brother' },
+              { href: '/j2', rel: 'brother' },
+              { href: '/j3', rel: 'brother' }
+            ]
+          }
+        });
+
+        expect(parsed._links.self.constructor).to.eql(hal.Link);
+        expect(parsed._links.mom.constructor).to.eql(hal.Link);
+        expect(parsed._links.brother).to.be.an('Array');
+        expect(_.pluck(parsed._links.brother, 'constructor')).to.deep.equal([hal.Link, hal.Link, hal.Link]);
+      });
+    });
+  });
 });
