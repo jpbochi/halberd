@@ -139,7 +139,14 @@ describe('HAL', function () {
           + '</resource>';
         expect(resource.toXML()).to.equal(xml);
       });
+    });
 
+    describe('toJSON', function () {
+      it('does not include rel inside links', function () {
+        var res = hal.Resource({}, '/self/href');
+
+        expect(res.toJSON()._links).to.deep.equal({ self: { href: '/self/href' } });
+      });
     });
 
     describe('parsing from json', function () {
