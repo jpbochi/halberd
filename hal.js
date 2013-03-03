@@ -1,5 +1,12 @@
-(function (exports) {
-
+(function (root, factory) {
+  if (typeof exports === "object" && exports) {
+    module.exports = factory; // CommonJS
+  } else if (typeof define === "function" && define.amd) {
+    define(factory); // AMD
+  } else {
+    root.Mustache = factory; // <script>
+  }
+}(this, (function () {
   /**
    * Link to another hypermedia
    * @param String rel → the relation identifier
@@ -311,7 +318,9 @@
   /**
    * Public API
    */
-  exports.Resource = Resource;
-  exports.Link = Link;
+  return {
+    Resource: Resource,
+    Link: Link
+  };
 
-})(typeof exports === 'undefined' ? this['hal']={} : exports);
+}())));
