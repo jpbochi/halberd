@@ -3,7 +3,7 @@
   "contributors": ["JP Bochi <jpbochi@gmail.com>"],
   "name": "halberd",
   "description": "Server and client implementation of Hypertext Application Language",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "repository": {
     "type": "git",
     "url": "git://github.com/jpbochi/halberd.git"
