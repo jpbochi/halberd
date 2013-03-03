@@ -1,4 +1,4 @@
-# Halberd [![Build Status](https://travis-ci.org/jpbochi/halberd.png)](https://travis-ci.org/jpbochi/halberd)
+# Halberd [![Build Status](https://travis-ci.org/jpbochi/halberd.png?branch=halberd)](https://travis-ci.org/jpbochi/halberd)
 
 [HAL](http://stateless.co/hal_specification.html) is a hypermedia-aware serialization format, which can be represented using JSON and XML format.
 
