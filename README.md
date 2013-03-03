@@ -1,4 +1,4 @@
-# JS HAL [![Travis CI Status](https://travis-ci.org/jpbochi/js-hal.png "You Shall Pass!")](https://travis-ci.org/#!/jpbochi/js-hal)
+# Halberd [![Build Status](https://travis-ci.org/jpbochi/halberd.png)](https://travis-ci.org/jpbochi/halberd)
 
 [HAL](http://stateless.co/hal_specification.html) is a hypermedia-aware serialization format, which can be represented using JSON and XML format.
 
@@ -8,6 +8,7 @@ It's obviously particularly useful for RESTful API delivering real Hypermedia co
 
 * It's meant to also be used on the client side. In other words, it accepts a full hal+json (with links) on the `hal.Resource` constructor.
 * [planned] Accept embedded resources on the `hal.Resource` constructor.
+* [planned] Support for requirejs/AMD.
 
 ## Usage
 
