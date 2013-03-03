@@ -1,8 +1,13 @@
-# JS HAL [![Travis CI Status](https://travis-ci.org/naholyr/js-hal.png "You Shall Pass!")](https://travis-ci.org/#!/naholyr/js-hal)
+# JS HAL [![Travis CI Status](https://travis-ci.org/jpbochi/js-hal.png "You Shall Pass!")](https://travis-ci.org/#!/jpbochi/js-hal)
 
 [HAL](http://stateless.co/hal_specification.html) is a hypermedia-aware serialization format, which can be represented using JSON and XML format.
 
 It's obviously particularly useful for RESTful API delivering real Hypermedia contents (cf HATEOAS).
+
+## Differences from [naholyr/js-hal](/naholyr/js-hal)
+
+* It's meant to also be used on the client side. In other words, it accepts a full hal+json (with links) on the `hal.Resource` constructor.
+* [planned] Accept embedded resources on the `hal.Resource` constructor.
 
 ## Usage
 
