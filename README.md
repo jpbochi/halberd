@@ -7,8 +7,8 @@ It's obviously particularly useful for RESTful API delivering real Hypermedia co
 ## Differences from [naholyr/js-hal](/naholyr/js-hal)
 
 * It's meant to also be used on the client side. In other words, it accepts a full hal+json (with links) on the `hal.Resource` constructor.
+* Support for requirejs/AMD.
 * [planned] Accept embedded resources on the `hal.Resource` constructor.
-* [planned] Support for requirejs/AMD.
 
 ## Usage
 
