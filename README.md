@@ -35,8 +35,10 @@ OK, more seriously you'll require:
 
 ### In Node.JS
 
+[halberd NPM package](https://npmjs.org/package/halberd)
+
 ```sh
-npm install hal
+npm install halberd
 ```
 
 ```javascript
@@ -84,40 +86,6 @@ Note: embedded resources `rel` will be naively singularized by removing last 's'
 Returns JSON representation.
 
 Note: `rel` will be naively pluralized by appending a 's' if there is not. This is due to differences between JSON and XML representation on embedded relationship and `rel` attribute.
-
-#### Why this crappy singular/plural management ?
-
-I base myself on [the examples provided here](http://stateless.co/hal_specification.html#examples). The two representations are equivalent, and you can see how plural and singular is used:
-
-```javascript
-{
-  "_links": {
-   "self": { "href": "/orders" }
-  },
-  "_embedded": {
-   "orders": [{
-       "_links": {
-         "self": { "href": "/orders/1" }
-       }
-     },{
-       "_links": {
-         "self": { "href": "/orders/2" }
-       }
-    }]
-  }
-}
-```
-
-```xml
-<resource href="/orders">
-  <resource rel="order" href="/orders/1">
-  </resource>
-  <resource rel="order" href="/orders/2">
-  </resource>
-</resource>
-```
-
-If this ugly action is the result of a misunderstanding, please let me know as I'd be glad to remove it!
 
 ## Example
 
