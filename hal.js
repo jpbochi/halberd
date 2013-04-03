@@ -177,11 +177,6 @@
    * @param Resource|Resource[] → resource(s) to embed
    */
   Resource.prototype.embed = function (rel, resource) {
-    // [Naive pluralize](https://github.com/naholyr/js-hal#why-this-crappy-singularplural-management%E2%80%AF)
-    if (rel.substring(rel.length - 1) !== 's') {
-      rel += 's';
-    }
-
     // Initialize embedded container
     if (this._embedded[rel] && !Array.isArray(this._embedded[rel])) {
       this._embedded[rel] = [this._embedded[rel]];
