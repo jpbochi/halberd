@@ -60,15 +60,21 @@
   }
 
   /**
-   * JSON representation of a link
+   * JSON representation of a link (or array of links)
    */
-  Link.prototype.toJSON = function () {
+  Link.toJSON = function (link) {
+    if (Array.isArray(link)) {
+      return link.map(Link.toJSON);
+    }
+
     // Note: calling "JSON.stringify(this)" will fail as JSON.stringify itself calls toJSON()
     // We need to copy properties to a new object
-    return Object.keys(this).reduce((function (object, key) {
-      object[key] = this[key];
+    return ['href', 'name', 'hreflang', 'title', 'templated'].reduce(function (object, key) {
+      if (link[key]) {
+        object[key] = link[key];
+      }
       return object;
-    }).bind(this), {});
+    }, {});
   };
 
   function parseLinks(links) {
@@ -210,7 +216,7 @@
         if (Object.keys(resource._links).length > 0) {
           // Note: we need to copy data to remove "rel" property without corrupting original Link object
           result._links = Object.keys(resource._links).reduce(function (links, rel) {
-            var link = resource._links[rel].toJSON();
+            var link = Link.toJSON(resource._links[rel]);
             delete link.rel;
             links[rel] = link;
             return links;
