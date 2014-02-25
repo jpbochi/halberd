@@ -78,7 +78,6 @@ describe('HAL', function () {
     });
 
     describe('String representation', function () {
-
       var resource;
 
       before(function () {
@@ -145,6 +144,20 @@ describe('HAL', function () {
         var res = hal.Resource({}, '/self/href');
 
         expect(res.toJSON()._links).to.deep.equal({ self: { href: '/self/href' } });
+      });
+
+      it('works with several links with the same rel', function () {
+        var res = hal.Resource({}, '/self/href');
+        res.link('admin', '/user/john');
+        res.link('admin', '/user/jane');
+
+        expect(res.toJSON()._links).to.deep.equal({
+          self: { href: '/self/href' },
+          admin: [
+            { href: '/user/john' },
+            { href: '/user/jane' }
+          ]
+        });
       });
     });
 
