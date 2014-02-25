@@ -1,9 +1,11 @@
 {
   "author": "Nicolas Chambrier <naholyr@gmail.com> (http://naholyr.fr)",
-  "contributors": ["JP Bochi <jpbochi@gmail.com>"],
+  "contributors": [
+    "JP Bochi <jpbochi@gmail.com>"
+  ],
   "name": "halberd",
   "description": "Server and client implementation of Hypertext Application Language",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "repository": {
     "type": "git",
     "url": "git://github.com/jpbochi/halberd.git"
