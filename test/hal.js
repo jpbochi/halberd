@@ -150,12 +150,14 @@ describe('HAL', function () {
         var res = hal.Resource({}, '/self/href');
         res.link('admin', '/user/john');
         res.link('admin', '/user/jane');
+        res.link('admin', '/user/joe');
 
         expect(res.toJSON()._links).to.deep.equal({
           self: { href: '/self/href' },
           admin: [
             { href: '/user/john' },
-            { href: '/user/jane' }
+            { href: '/user/jane' },
+            { href: '/user/joe' }
           ]
         });
       });

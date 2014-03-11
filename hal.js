@@ -162,7 +162,7 @@
       return newLink;
     }
     if (Array.isArray(group)) {
-      return a.concat(newlink);
+      return group.concat(newLink);
     }
     return [ group, newLink ];
   }
