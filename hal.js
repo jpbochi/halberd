@@ -151,15 +151,21 @@
     if (arguments.length > 1) {
       link = Link(arguments[0], arguments[1]);
     }
+      var forceArray = false;
+    if (arguments.length >= 3)
+    {
+        forceArray = arguments[2];
+    }
+      
 
-    this._links[link.rel] = linkGroupPlus(this._links[link.rel], link);
+    this._links[link.rel] = linkGroupPlus(this._links[link.rel], link, forceArray);
 
     return this;
   };
 
-  function linkGroupPlus(group, newLink) {
+  function linkGroupPlus(group, newLink, forceArray) {
     if (!group) {
-      return newLink;
+      return forceArray ? [newLink] : newLink;
     }
     if (Array.isArray(group)) {
       return group.concat(newLink);
