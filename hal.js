@@ -149,12 +149,18 @@
    */
   Resource.prototype.link = function (link) {
     var forceArray = false;
+    var self = this;
     if (arguments.length > 1) {
-        var href = arguments[1];
-        if (Array.isArray(href)) {
-            forceArray = true;
-            href = href[0];
-        }
+      var href = arguments[1];
+      var rel = arguments[0];
+      if (Array.isArray(href)) {
+        forceArray = true;
+        href.forEach(function(h) {
+          link = Link(rel, h);
+          self._links[link.rel] = linkGroupPlus(self._links[link.rel], link, forceArray);
+        });
+        return this;
+      }
       link = Link(arguments[0], href);
     }
 
