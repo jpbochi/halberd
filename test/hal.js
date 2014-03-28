@@ -68,6 +68,14 @@ describe('HAL', function () {
       expect(_.pluck(res._links.admin, 'href')).to.deep.equal(['/user/john', '/user/jane']);
       expect(_.pluck(res._links.admin, 'rel')).to.deep.equal(['admin', 'admin']);
     });
+    it('should force a single link to be an array', function() {
+      var res = new hal.Resource({});
+      res.link('admin', ['/user/john']);
+      
+      expect(res._links).to.have.property('admin');
+      expect(res._links.admin).to.be.an('Array');
+      expect(_.pluck(res._links.admin, 'href')).to.deep.equal(['/user/john']);
+    });
     it('should embed resource', function () {
       var res = new hal.Resource({}, 'href');
       var sub = new hal.Resource({}, 'href2');

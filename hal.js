@@ -148,15 +148,15 @@
    * @see Link
    */
   Resource.prototype.link = function (link) {
+    var forceArray = false;
     if (arguments.length > 1) {
-      link = Link(arguments[0], arguments[1]);
+        var href = arguments[1];
+        if (Array.isArray(href)) {
+            forceArray = true;
+            href = href[0];
+        }
+      link = Link(arguments[0], href);
     }
-      var forceArray = false;
-    if (arguments.length >= 3)
-    {
-        forceArray = arguments[2];
-    }
-      
 
     this._links[link.rel] = linkGroupPlus(this._links[link.rel], link, forceArray);
 
