@@ -148,13 +148,11 @@
    * @see Link
    */
   Resource.prototype.link = function (link) {
-    var forceArray = false;
     var self = this;
     if (arguments.length > 1) {
+        var rel = arguments[0];
       var href = arguments[1];
-      var rel = arguments[0];
       if (Array.isArray(href)) {
-        forceArray = true;
         var links = href.map(function(h) {
             return Link(rel, h);
         });
