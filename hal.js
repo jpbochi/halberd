@@ -148,24 +148,19 @@
    * @see Link
    */
   Resource.prototype.link = function (link) {
-    var self = this;
-    if (arguments.length > 1) {
-      var rel = arguments[0];
-      var href = arguments[1];
-      if (Array.isArray(href)) {
-        var links = href.map(function(h) {
-            return Link(rel, h);
-        });
-          
-        self._links[rel] = linkGroupPlus(self._links[link.rel], links);
-        return this;
-      }
-      link = Link(arguments[0], href);
-    }
+      var self = this;
+      var rel = arguments.length > 1 ? arguments[0] : link.rel;
+      var links = arguments.length > 1 ?
+        Array.isArray(arguments[1]) ?
+          arguments[1].map(function (h) {
+              return Link(rel, h)
+          }) :
+          Link(rel, arguments[1])
+        : link;
 
-    this._links[link.rel] = linkGroupPlus(this._links[link.rel], link);
+      this._links[rel] = linkGroupPlus(this._links[rel], links);
 
-    return this;
+      return this;
   };
 
   function linkGroupPlus(group, newLink) {
