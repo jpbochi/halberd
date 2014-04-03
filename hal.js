@@ -148,13 +148,19 @@
    * @see Link
    */
   Resource.prototype.link = function (link) {
-    if (arguments.length > 1) {
-      link = Link(arguments[0], arguments[1]);
-    }
+      var self = this;
+      var rel = arguments.length > 1 ? arguments[0] : link.rel;
+      var links = arguments.length > 1 ?
+        Array.isArray(arguments[1]) ?
+          arguments[1].map(function (h) {
+              return Link(rel, h)
+          }) :
+          Link(rel, arguments[1])
+        : link;
 
-    this._links[link.rel] = linkGroupPlus(this._links[link.rel], link);
+      this._links[rel] = linkGroupPlus(this._links[rel], links);
 
-    return this;
+      return this;
   };
 
   function linkGroupPlus(group, newLink) {
