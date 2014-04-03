@@ -155,23 +155,24 @@
       var rel = arguments[0];
       if (Array.isArray(href)) {
         forceArray = true;
-        href.forEach(function(h) {
-          link = Link(rel, h);
-          self._links[link.rel] = linkGroupPlus(self._links[link.rel], link, forceArray);
+        var links = href.map(function(h) {
+            return Link(rel, h);
         });
+          
+        self._links[rel] = linkGroupPlus(self._links[link.rel], links);
         return this;
       }
       link = Link(arguments[0], href);
     }
 
-    this._links[link.rel] = linkGroupPlus(this._links[link.rel], link, forceArray);
+    this._links[link.rel] = linkGroupPlus(this._links[link.rel], link);
 
     return this;
   };
 
-  function linkGroupPlus(group, newLink, forceArray) {
+  function linkGroupPlus(group, newLink) {
     if (!group) {
-      return forceArray ? [newLink] : newLink;
+      return newLink;
     }
     if (Array.isArray(group)) {
       return group.concat(newLink);

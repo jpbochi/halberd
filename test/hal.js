@@ -71,6 +71,7 @@ describe('HAL', function () {
     it('should force a single link to be an array', function() {
       var res = new hal.Resource({});
       res.link('admin', ['/user/john']);
+        console.log(res._links);
       
       expect(res._links).to.have.property('admin');
       expect(res._links.admin).to.be.an('Array');
