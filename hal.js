@@ -150,7 +150,7 @@
   Resource.prototype.link = function (link) {
     var self = this;
     if (arguments.length > 1) {
-        var rel = arguments[0];
+      var rel = arguments[0];
       var href = arguments[1];
       if (Array.isArray(href)) {
         var links = href.map(function(h) {
