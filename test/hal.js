@@ -52,29 +52,49 @@ describe('HAL', function () {
       expect(res._links.self.href).to.equal('href');
       expect(res._links.self.name).to.equal('name');
     });
-    it('should add link', function () {
-      var res = new hal.Resource({}, 'href');
-      expect(res.link.bind(res, 'edit', '/edit')).to.not.throw(Error);
-      expect(res._links).to.have.property('edit');
-      expect(res._links.edit.href).to.equal('/edit');
-    });
-    it('should add two links with same rel', function () {
-      var res = new hal.Resource({});
-      res.link('admin', '/user/john');
-      res.link('admin', '/user/jane');
 
-      expect(res._links).to.have.property('admin');
-      expect(res._links.admin).to.be.an('Array');
-      expect(_.pluck(res._links.admin, 'href')).to.deep.equal(['/user/john', '/user/jane']);
-      expect(_.pluck(res._links.admin, 'rel')).to.deep.equal(['admin', 'admin']);
+    describe('link(rel, href)', function () {
+      it('should add link', function () {
+        var res = new hal.Resource({});
+        var boundCall = res.link.bind(res, 'edit', '/edit');
+
+        expect(boundCall).to.not.throw(Error);
+        expect(res._links).to.have.property('edit');
+        expect(res._links.edit.href).to.equal('/edit');
+      });
+
+      it('should add two links with same rel', function () {
+        var res = new hal.Resource({});
+        res.link('admin', '/user/john');
+        res.link('admin', '/user/jane');
+
+        expect(res._links).to.have.property('admin');
+        expect(res._links.admin).to.be.an('Array');
+        expect(_.pluck(res._links.admin, 'href')).to.deep.equal(['/user/john', '/user/jane']);
+        expect(_.pluck(res._links.admin, 'rel')).to.deep.equal(['admin', 'admin']);
+      });
     });
-    it('should embed resource', function () {
-      var res = new hal.Resource({}, 'href');
-      var sub = new hal.Resource({}, 'href2');
-      expect(res.embed.bind(res, 'subs', sub)).to.not.throw(Error);
-      expect(res._embedded).to.have.property('subs');
-      expect(res._embedded.subs).to.be.an('array');
-      expect(res._embedded.subs).to.have.length(1);
+
+    describe('link(hal.Link)', function () {
+      it('should add link', function () {
+        var res = new hal.Resource({});
+        var boundCall = res.link.bind(res, new hal.Link('edit', '/edit'));
+
+        expect(boundCall).to.not.throw(Error);
+        expect(res._links).to.have.property('edit');
+        expect(res._links.edit.href).to.equal('/edit');
+      });
+    });
+
+    describe('embed(rel, resource)', function () {
+      it('should embed resource', function () {
+        var res = new hal.Resource({}, 'href');
+        var sub = new hal.Resource({}, 'href2');
+        expect(res.embed.bind(res, 'subs', sub)).to.not.throw(Error);
+        expect(res._embedded).to.have.property('subs');
+        expect(res._embedded.subs).to.be.an('array');
+        expect(res._embedded.subs).to.have.length(1);
+      });
     });
 
     describe('String representation', function () {
@@ -184,9 +204,10 @@ describe('HAL', function () {
       });
     });
 
-    describe('links()', function () {
-      it ('return an array with all links', function () {
-        var resource = hal.Resource({
+    describe('querying for links', function () {
+      var resource;
+      beforeEach(function () {
+        resource = hal.Resource({
           _links: {
             self: { href: '/me' },
             pop: { href: '/pop' },
@@ -196,11 +217,61 @@ describe('HAL', function () {
             ]
           }
         });
+      });
 
+      it('returns an array with all links', function () {
         var links = resource.links();
         expect(links).to.be.an('Array');
         expect(_.pluck(links, 'rel')).to.deep.equal(['self', 'pop', 'sister', 'sister']);
         expect(_.pluck(links, 'href')).to.deep.equal(['/me', '/pop', '/one', '/two']);
+      });
+
+      describe('links(rel)', function () {
+        it('returns only the links with the given rel', function () {
+          var links = resource.links('sister');
+          expect(links).to.be.an('Array');
+          expect(_.pluck(links, 'rel')).to.deep.equal(['sister', 'sister']);
+          expect(_.pluck(links, 'href')).to.deep.equal(['/one', '/two']);
+        });
+
+        it('returns an array of links with the given rel even if there is only one', function () {
+          var links = resource.links('pop');
+          expect(links).to.be.an('Array');
+          expect(_.pluck(links, 'rel')).to.deep.equal(['pop']);
+          expect(_.pluck(links, 'href')).to.deep.equal(['/pop']);
+        });
+
+        it('returns an empty array if there is no link with given rel', function () {
+          var links = resource.links('mom');
+          expect(links).to.deep.equal([]);
+        });
+      });
+
+      describe('links(relsArray)', function () {
+        it('returns only the links with the given rels', function () {
+          var links = resource.links(['sister', 'pop', 'mom']);
+          expect(links).to.be.an('Array');
+          expect(_.pluck(links, 'rel')).to.deep.equal(['sister', 'sister', 'pop']);
+          expect(_.pluck(links, 'href')).to.deep.equal(['/one', '/two', '/pop']);
+        });
+
+        it('returns an empty array if there is no link with given rels', function () {
+          var links = resource.links(['mom']);
+          expect(links).to.deep.equal([]);
+        });
+      });
+
+      describe('link(rel)', function () {
+        it('returns the link with that relation', function () {
+          var link = resource.link('pop');
+          expect(link.rel).to.equal('pop');
+          expect(hal.Link.toJSON(link)).to.deep.equal({ href: '/pop' });
+        });
+
+        it('returns null if there is no link with given relation', function () {
+          var link = resource.link('mom');
+          expect(link).to.equal(null);
+        });
       });
     });
   });
