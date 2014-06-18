@@ -204,7 +204,7 @@ describe('HAL', function () {
       });
     });
 
-    describe('links()', function () {
+    describe('querying for links', function () {
       var resource;
       beforeEach(function () {
         resource = hal.Resource({
@@ -238,6 +238,11 @@ describe('HAL', function () {
         expect(links).to.be.an('Array');
         expect(_.pluck(links, 'rel')).to.deep.equal(['pop']);
         expect(_.pluck(links, 'href')).to.deep.equal(['/pop']);
+      });
+
+      it('return an empty array if there is no link with given rel', function () {
+        var links = resource.links('mom');
+        expect(links).to.deep.equal([]);
       });
     });
   });

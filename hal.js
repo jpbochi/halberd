@@ -168,12 +168,12 @@
   }
 
   Resource.prototype.links = function (rel) {
-    if (rel) {
-      return [].concat(this._links[rel]);
-    }
-
     var links = [];
     var _links = this._links;
+
+    if (rel) {
+      return [].concat(_links[rel] || []);
+    }
 
     Object.keys(_links).forEach(function (rel) {
       links = links.concat(_links[rel]);
