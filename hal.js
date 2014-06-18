@@ -180,8 +180,15 @@
     var links = [];
     var _links = this._links;
 
-    if (rel) {
+    if (isString(rel)) {
       return [].concat(_links[rel] || []);
+    }
+    if (Array.isArray(rel)) {
+      return rel.map(function (rel) {
+        return this.links(rel);
+      }.bind(this)).reduce(function (acc, links) {
+        return acc.concat(links);
+      }, []);
     }
 
     Object.keys(_links).forEach(function (rel) {

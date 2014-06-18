@@ -226,23 +226,39 @@ describe('HAL', function () {
         expect(_.pluck(links, 'href')).to.deep.equal(['/me', '/pop', '/one', '/two']);
       });
 
-      it('returns only the links with the given rel', function () {
-        var links = resource.links('sister');
-        expect(links).to.be.an('Array');
-        expect(_.pluck(links, 'rel')).to.deep.equal(['sister', 'sister']);
-        expect(_.pluck(links, 'href')).to.deep.equal(['/one', '/two']);
+      describe('links(rel)', function () {
+        it('returns only the links with the given rel', function () {
+          var links = resource.links('sister');
+          expect(links).to.be.an('Array');
+          expect(_.pluck(links, 'rel')).to.deep.equal(['sister', 'sister']);
+          expect(_.pluck(links, 'href')).to.deep.equal(['/one', '/two']);
+        });
+
+        it('returns an array of links with the given rel even if there is only one', function () {
+          var links = resource.links('pop');
+          expect(links).to.be.an('Array');
+          expect(_.pluck(links, 'rel')).to.deep.equal(['pop']);
+          expect(_.pluck(links, 'href')).to.deep.equal(['/pop']);
+        });
+
+        it('returns an empty array if there is no link with given rel', function () {
+          var links = resource.links('mom');
+          expect(links).to.deep.equal([]);
+        });
       });
 
-      it('returns an array of links with the given rel even if there is only one', function () {
-        var links = resource.links('pop');
-        expect(links).to.be.an('Array');
-        expect(_.pluck(links, 'rel')).to.deep.equal(['pop']);
-        expect(_.pluck(links, 'href')).to.deep.equal(['/pop']);
-      });
+      describe('links(relsArray)', function () {
+        it('returns only the links with the given rels', function () {
+          var links = resource.links(['sister', 'pop', 'mom']);
+          expect(links).to.be.an('Array');
+          expect(_.pluck(links, 'rel')).to.deep.equal(['sister', 'sister', 'pop']);
+          expect(_.pluck(links, 'href')).to.deep.equal(['/one', '/two', '/pop']);
+        });
 
-      it('returns an empty array if there is no link with given rel', function () {
-        var links = resource.links('mom');
-        expect(links).to.deep.equal([]);
+        it('returns an empty array if there is no link with given rels', function () {
+          var links = resource.links(['mom']);
+          expect(links).to.deep.equal([]);
+        });
       });
 
       describe('link(rel)', function () {
