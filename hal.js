@@ -158,7 +158,7 @@
       link = Link(arguments[0], arguments[1]);
     }
     if (isString(link)) {
-      return this.links(link)[0];
+      return this.links(link)[0] || null;
     }
 
     this._links[link.rel] = linkGroupPlus(this._links[link.rel], link);
