@@ -55,7 +55,7 @@ describe('HAL', function () {
 
     describe('link(rel, href)', function () {
       it('should add link', function () {
-        var res = new hal.Resource({}, 'href');
+        var res = new hal.Resource({});
         var boundCall = res.link.bind(res, 'edit', '/edit');
 
         expect(boundCall).to.not.throw(Error);
@@ -77,7 +77,7 @@ describe('HAL', function () {
 
     describe('link(hal.Link)', function () {
       it('should add link', function () {
-        var res = new hal.Resource({}, 'href');
+        var res = new hal.Resource({});
         var boundCall = res.link.bind(res, new hal.Link('edit', '/edit'));
 
         expect(boundCall).to.not.throw(Error);
@@ -86,13 +86,15 @@ describe('HAL', function () {
       });
     });
 
-    it('should embed resource', function () {
-      var res = new hal.Resource({}, 'href');
-      var sub = new hal.Resource({}, 'href2');
-      expect(res.embed.bind(res, 'subs', sub)).to.not.throw(Error);
-      expect(res._embedded).to.have.property('subs');
-      expect(res._embedded.subs).to.be.an('array');
-      expect(res._embedded.subs).to.have.length(1);
+    describe('embed(rel, resource)', function () {
+      it('should embed resource', function () {
+        var res = new hal.Resource({}, 'href');
+        var sub = new hal.Resource({}, 'href2');
+        expect(res.embed.bind(res, 'subs', sub)).to.not.throw(Error);
+        expect(res._embedded).to.have.property('subs');
+        expect(res._embedded.subs).to.be.an('array');
+        expect(res._embedded.subs).to.have.length(1);
+      });
     });
 
     describe('String representation', function () {
