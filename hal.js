@@ -7,6 +7,10 @@
     root.Mustache = factory; // <script>
   }
 }(this, (function () {
+  function isString(value) {
+    return typeof value === 'string';
+  }
+
   /**
    * Link to another hypermedia
    * @param String rel → the relation identifier
@@ -141,15 +145,20 @@
   };
 
   /**
-   * Add a link to a resource
+   * 1. link(hal.Link) adds a link object to the resource
    * @param Link link
    *
-   * Alternative usage: function (rel, value)
+   * 2. link(rel, href) creates and adds a link to the resource
+   * 3. link(rel) returns the first link with given rel or null
+   *
    * @see Link
    */
   Resource.prototype.link = function (link) {
     if (arguments.length > 1) {
       link = Link(arguments[0], arguments[1]);
+    }
+    if (isString(link)) {
+      return this.links(link)[0];
     }
 
     this._links[link.rel] = linkGroupPlus(this._links[link.rel], link);

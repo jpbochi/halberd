@@ -244,6 +244,14 @@ describe('HAL', function () {
         var links = resource.links('mom');
         expect(links).to.deep.equal([]);
       });
+
+      describe('link(rel)', function () {
+        it('should return the link with that relation', function () {
+          var link = resource.link('pop');
+          expect(link.rel).to.equal('pop');
+          expect(hal.Link.toJSON(link)).to.deep.equal({ href: '/pop' });
+        });
+      });
     });
   });
 });
