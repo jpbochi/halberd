@@ -52,22 +52,40 @@ describe('HAL', function () {
       expect(res._links.self.href).to.equal('href');
       expect(res._links.self.name).to.equal('name');
     });
-    it('should add link', function () {
-      var res = new hal.Resource({}, 'href');
-      expect(res.link.bind(res, 'edit', '/edit')).to.not.throw(Error);
-      expect(res._links).to.have.property('edit');
-      expect(res._links.edit.href).to.equal('/edit');
-    });
-    it('should add two links with same rel', function () {
-      var res = new hal.Resource({});
-      res.link('admin', '/user/john');
-      res.link('admin', '/user/jane');
 
-      expect(res._links).to.have.property('admin');
-      expect(res._links.admin).to.be.an('Array');
-      expect(_.pluck(res._links.admin, 'href')).to.deep.equal(['/user/john', '/user/jane']);
-      expect(_.pluck(res._links.admin, 'rel')).to.deep.equal(['admin', 'admin']);
+    describe('link(rel, href)', function () {
+      it('should add link', function () {
+        var res = new hal.Resource({}, 'href');
+        var boundCall = res.link.bind(res, 'edit', '/edit');
+
+        expect(boundCall).to.not.throw(Error);
+        expect(res._links).to.have.property('edit');
+        expect(res._links.edit.href).to.equal('/edit');
+      });
+
+      it('should add two links with same rel', function () {
+        var res = new hal.Resource({});
+        res.link('admin', '/user/john');
+        res.link('admin', '/user/jane');
+
+        expect(res._links).to.have.property('admin');
+        expect(res._links.admin).to.be.an('Array');
+        expect(_.pluck(res._links.admin, 'href')).to.deep.equal(['/user/john', '/user/jane']);
+        expect(_.pluck(res._links.admin, 'rel')).to.deep.equal(['admin', 'admin']);
+      });
     });
+
+    describe('link(hal.Link)', function () {
+      it('should add link', function () {
+        var res = new hal.Resource({}, 'href');
+        var boundCall = res.link.bind(res, new hal.Link('edit', '/edit'));
+
+        expect(boundCall).to.not.throw(Error);
+        expect(res._links).to.have.property('edit');
+        expect(res._links.edit.href).to.equal('/edit');
+      });
+    });
+
     it('should embed resource', function () {
       var res = new hal.Resource({}, 'href');
       var sub = new hal.Resource({}, 'href2');
