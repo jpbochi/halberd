@@ -185,8 +185,9 @@ describe('HAL', function () {
     });
 
     describe('links()', function () {
-      it ('return an array with all links', function () {
-        var resource = hal.Resource({
+      var resource;
+      beforeEach(function () {
+        resource = hal.Resource({
           _links: {
             self: { href: '/me' },
             pop: { href: '/pop' },
@@ -196,11 +197,27 @@ describe('HAL', function () {
             ]
           }
         });
+      });
 
+      it ('return an array with all links', function () {
         var links = resource.links();
         expect(links).to.be.an('Array');
         expect(_.pluck(links, 'rel')).to.deep.equal(['self', 'pop', 'sister', 'sister']);
         expect(_.pluck(links, 'href')).to.deep.equal(['/me', '/pop', '/one', '/two']);
+      });
+
+      it('return only the links with the given rel', function () {
+        var links = resource.links('sister');
+        expect(links).to.be.an('Array');
+        expect(_.pluck(links, 'rel')).to.deep.equal(['sister', 'sister']);
+        expect(_.pluck(links, 'href')).to.deep.equal(['/one', '/two']);
+      });
+
+      it('return an array of links with the given rel even if there is only one', function () {
+        var links = resource.links('pop');
+        expect(links).to.be.an('Array');
+        expect(_.pluck(links, 'rel')).to.deep.equal(['pop']);
+        expect(_.pluck(links, 'href')).to.deep.equal(['/pop']);
       });
     });
   });

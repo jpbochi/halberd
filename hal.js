@@ -167,7 +167,11 @@
     return [ group, newLink ];
   }
 
-  Resource.prototype.links = function () {
+  Resource.prototype.links = function (rel) {
+    if (rel) {
+      return [].concat(this._links[rel]);
+    }
+
     var links = [];
     var _links = this._links;
 
