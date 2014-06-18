@@ -51,7 +51,7 @@ console.log(resource.toJSON());
 
 ## API
 
-### `Resource (object, uri)`
+### `Resource(object, uri)`
 
 This class designs a HAL resource:
 
@@ -60,28 +60,40 @@ This class designs a HAL resource:
  * If you set `href` property and `uri` is undefined, it will be used instead of `uri` and deleted
 * `uri` is the link to this property (as `<link rel="self">`)
 
-### `Link (rel, href)` or `Link (rel, attributes)`
+### `Link(rel, href)` or `Link(rel, attributes)`
 
 This class designs a HAL link:
 
 * `rel` is mandatory
 * `href` or `attributes.href` is mandatory
 
-### `Resource#link (link)` or `Resource#link (rel, href)` or `Resource#link (rel, attributes)`
+### `Resource#link(link)` or `Resource#link(rel, href)` or `Resource#link(rel, attributes)`
 
 Adds a new link to resource.
 
-### `Resource#embed (rel, resource[s])`
+### `Resource#embed(rel, resource[s])`
 
 Embeds other resource(s) to current resource.
 
-### `Resource#toXML ()`
+### `Resource#links()`
+
+Returns all links of a resource.
+
+### `Resource#links(rel)` or `Resource#links(relsArray)`
+
+Returns links of a given relation (or relations) of a resource.
+
+### `Resource#link(rel)`
+
+Returns the first link of a given relation of a resource, or null if there is no such link.
+
+### `Resource#toXML()`
 
 Returns XML representation.
 
 Note: embedded resources `rel` will be naively singularized by removing last 's'. See `Resource#toJSON` for more information.
 
-### `Resource#toJSON ()`
+### `Resource#toJSON()`
 
 Returns JSON representation.
 

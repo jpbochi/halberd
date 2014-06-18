@@ -272,6 +272,12 @@ describe('HAL', function () {
           var link = resource.link('mom');
           expect(link).to.equal(null);
         });
+
+        it('returns the first link with that relation', function () {
+          var link = resource.link('sister');
+          expect(link.rel).to.equal('sister');
+          expect(hal.Link.toJSON(link)).to.deep.equal({ href: '/one' });
+        });
       });
     });
   });
