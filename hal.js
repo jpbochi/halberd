@@ -10,6 +10,8 @@
   function isString(value) {
     return typeof value === 'string';
   }
+  var linkAttributes = ['href', 'templated', 'type',
+    'deprecation', 'name', 'profile', 'title', 'hreflang'];
 
   /**
    * Link to another hypermedia
@@ -29,14 +31,11 @@
 
       // If value is a hashmap, just copy properties
       if (!value.href) throw new Error('Required <link> attribute "href"');
-      var expectedAttributes = ['rel', 'href', 'name', 'hreflang', 'title', 'templated'];
       for (var attr in value) {
         if (value.hasOwnProperty(attr)) {
-          if (!~expectedAttributes.indexOf(attr)) {
-            // Unexpected attribute: ignore it
-            continue;
+          if (attr === 'rel' || ~linkAttributes.indexOf(attr)) {
+            this[attr] = value[attr];
           }
-          this[attr] = value[attr];
         }
       }
 
@@ -73,7 +72,7 @@
 
     // Note: calling "JSON.stringify(this)" will fail as JSON.stringify itself calls toJSON()
     // We need to copy properties to a new object
-    return ['href', 'name', 'hreflang', 'title', 'templated'].reduce(function (object, key) {
+    return linkAttributes.reduce(function (object, key) {
       if (link[key]) {
         object[key] = link[key];
       }
