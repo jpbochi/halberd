@@ -10,8 +10,18 @@
   function isString(value) {
     return typeof value === 'string';
   }
+
   var linkAttributes = ['href', 'templated', 'type',
     'deprecation', 'name', 'profile', 'title', 'hreflang'];
+
+  /**
+   * Test if a name is a valid link attribute.
+   * @param  String attr → name of attribute to check
+   * @return Boolean → true if attr refers to a link attribute, else false
+   */
+  function isLinkAttribute(attr) {
+    return linkAttributes.indexOf(attr) != -1;
+  }
 
   /**
    * Link to another hypermedia
@@ -33,7 +43,7 @@
       if (!value.href) throw new Error('Required <link> attribute "href"');
       for (var attr in value) {
         if (value.hasOwnProperty(attr)) {
-          if (attr === 'rel' || ~linkAttributes.indexOf(attr)) {
+          if (attr === 'rel' || isLinkAttribute(attr)) {
             this[attr] = value[attr];
           }
         }
