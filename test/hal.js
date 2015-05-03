@@ -31,6 +31,26 @@ describe('HAL', function () {
       expect(link.href).to.equal('href');
       expect(link.hello).to.be.undefined;
     });
+    it('should accept all specced attributes', function () {
+      var link = new hal.Link('rel', {
+        href: 'href',
+        templated: 'templated',
+        type: 'type',
+        deprecation: 'deprecation',
+        name: 'name',
+        profile: 'profile',
+        title: 'title',
+        hreflang: 'hreflang'
+      });
+      expect(link.href).to.equal('href');
+      expect(link.templated).to.equal('templated');
+      expect(link.type).to.equal('type');
+      expect(link.deprecation).to.equal('deprecation');
+      expect(link.name).to.equal('name');
+      expect(link.profile).to.equal('profile');
+      expect(link.title).to.equal('title');
+      expect(link.hreflang).to.equal('hreflang');
+    });
   });
 
   describe('Resource', function () {
@@ -179,6 +199,15 @@ describe('HAL', function () {
             { href: '/user/jane' },
             { href: '/user/joe' }
           ]
+        });
+      });
+
+      it('link includes type attribute if it exists', function() {
+        var res = hal.Resource({}, '/self/href');
+        res.link('image', { href: '/plot.png', type: 'plot' });
+        expect(res.toJSON()._links).to.deep.equal({
+          self: { href: '/self/href' },
+          image:{ href: '/plot.png', type: 'plot' }
         });
       });
     });
