@@ -15,9 +15,9 @@ It's obviously particularly useful for RESTful API delivering real Hypermedia co
 ### In your browser
 
 ```html
-<script src="/path/to/hal.js"></script>
+<script src="/path/to/halberd.js"></script>
 <script>
-var resource = new hal.Resource({name: "Harry"}, '/harry');
+var resource = new Halberd.Resource({name: "Harry"}, '/harry');
 resource.link('hello', '/harry/hello');
 console.log(resource.toJSON());
 </script>
