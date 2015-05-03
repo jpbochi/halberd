@@ -4,7 +4,7 @@
   } else if (typeof define === "function" && define.amd) {
     define(factory); // AMD
   } else {
-    root.Mustache = factory; // <script>
+    root.Halberd = factory; // <script>
   }
 }(this, (function () {
   function isString(value) {
