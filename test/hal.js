@@ -90,8 +90,8 @@ describe('HAL', function () {
 
         expect(res._links).to.have.property('admin');
         expect(res._links.admin).to.be.an('Array');
-        expect(_.pluck(res._links.admin, 'href')).to.deep.equal(['/user/john', '/user/jane']);
-        expect(_.pluck(res._links.admin, 'rel')).to.deep.equal(['admin', 'admin']);
+        expect(_.map(res._links.admin, 'href')).to.deep.equal(['/user/john', '/user/jane']);
+        expect(_.map(res._links.admin, 'rel')).to.deep.equal(['admin', 'admin']);
       });
     });
 
@@ -229,7 +229,7 @@ describe('HAL', function () {
         expect(parsed._links.self.constructor).to.eql(hal.Link);
         expect(parsed._links.mom.constructor).to.eql(hal.Link);
         expect(parsed._links.brother).to.be.an('Array');
-        expect(_.pluck(parsed._links.brother, 'constructor')).to.deep.equal([hal.Link, hal.Link, hal.Link]);
+        expect(_.map(parsed._links.brother, 'constructor')).to.deep.equal([hal.Link, hal.Link, hal.Link]);
       });
     });
 
@@ -251,23 +251,23 @@ describe('HAL', function () {
       it('returns an array with all links', function () {
         var links = resource.links();
         expect(links).to.be.an('Array');
-        expect(_.pluck(links, 'rel')).to.deep.equal(['self', 'pop', 'sister', 'sister']);
-        expect(_.pluck(links, 'href')).to.deep.equal(['/me', '/pop', '/one', '/two']);
+        expect(_.map(links, 'rel')).to.deep.equal(['self', 'pop', 'sister', 'sister']);
+        expect(_.map(links, 'href')).to.deep.equal(['/me', '/pop', '/one', '/two']);
       });
 
       describe('links(rel)', function () {
         it('returns only the links with the given rel', function () {
           var links = resource.links('sister');
           expect(links).to.be.an('Array');
-          expect(_.pluck(links, 'rel')).to.deep.equal(['sister', 'sister']);
-          expect(_.pluck(links, 'href')).to.deep.equal(['/one', '/two']);
+          expect(_.map(links, 'rel')).to.deep.equal(['sister', 'sister']);
+          expect(_.map(links, 'href')).to.deep.equal(['/one', '/two']);
         });
 
         it('returns an array of links with the given rel even if there is only one', function () {
           var links = resource.links('pop');
           expect(links).to.be.an('Array');
-          expect(_.pluck(links, 'rel')).to.deep.equal(['pop']);
-          expect(_.pluck(links, 'href')).to.deep.equal(['/pop']);
+          expect(_.map(links, 'rel')).to.deep.equal(['pop']);
+          expect(_.map(links, 'href')).to.deep.equal(['/pop']);
         });
 
         it('returns an empty array if there is no link with given rel', function () {
@@ -280,8 +280,8 @@ describe('HAL', function () {
         it('returns only the links with the given rels', function () {
           var links = resource.links(['sister', 'pop', 'mom']);
           expect(links).to.be.an('Array');
-          expect(_.pluck(links, 'rel')).to.deep.equal(['sister', 'sister', 'pop']);
-          expect(_.pluck(links, 'href')).to.deep.equal(['/one', '/two', '/pop']);
+          expect(_.map(links, 'rel')).to.deep.equal(['sister', 'sister', 'pop']);
+          expect(_.map(links, 'href')).to.deep.equal(['/one', '/two', '/pop']);
         });
 
         it('returns an empty array if there is no link with given rels', function () {
