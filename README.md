@@ -1,6 +1,6 @@
 # Halberd [![Build Status](https://travis-ci.org/jpbochi/halberd.png?branch=halberd)](https://travis-ci.org/jpbochi/halberd)
 
-[HAL](http://stateless.co/hal_specification.html) is a hypermedia-aware serialization format, which can be represented using JSON and XML format.
+[HAL](http://stateless.co/hal_specification.html) is a hypermedia-aware serialization format, which can be represented using JSON and XML format. You can find more details about HAL in [specification draft](http://tools.ietf.org/html/draft-kelly-json-hal-07).
 
 It's obviously particularly useful for RESTful API delivering real Hypermedia contents (cf HATEOAS).
 
@@ -42,7 +42,7 @@ npm install halberd
 ```
 
 ```javascript
-var hal = require('hal');
+var hal = require('halberd');
 
 var resource = new hal.Resource({name: "Harry"}, '/harry');
 resource.link('hello', '/harry/hello');
