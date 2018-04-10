@@ -5,7 +5,8 @@
   ],
   "name": "halberd",
   "description": "Server and client implementation of Hypertext Application Language",
-  "version": "0.2.2",
+  "version": "0.2.3",
+  "license": "SEE LICENSE IN LICENSE",
   "repository": {
     "type": "git",
     "url": "git://github.com/jpbochi/halberd.git"
